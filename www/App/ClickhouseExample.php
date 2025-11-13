@@ -10,7 +10,8 @@ class ClickhouseExample
 
     public function __construct()
     {
-        $this->client = ClientFactory::make('http://localhost:8123/');
+        // Внутри docker-compose обращаемся по имени сервиса clickhouse
+        $this->client = ClientFactory::make('http://clickhouse:8123/');
     }
 
     public function query($sql)

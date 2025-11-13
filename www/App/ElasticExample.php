@@ -10,7 +10,8 @@ class ElasticExample
 
     public function __construct()
     {
-        $this->client = ClientFactory::make('http://localhost:9200/');
+        // Используем имя сервиса elasticsearch в docker-compose
+        $this->client = ClientFactory::make('http://elasticsearch:9200/');
     }
 
     public function indexDocument($index, $id, $data)
@@ -23,7 +24,8 @@ class ElasticExample
 
     public function search($index, $query)
     {
-        $response = $this->client->get("$index/_search", [
+        // Elasticsearch ожидает тело запроса — используем POST с JSON
+        $response = $this->client->post("$index/_search", [
             'json' => ['query' => ['match' => $query]]
         ]);
         return $response->getBody()->getContents();
